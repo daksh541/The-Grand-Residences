@@ -20,6 +20,7 @@ A web application for browsing luxury apartments, featuring real-time filtering,
 1. Clone the repository:
    ```bash
    git clone https://github.com/daksh541/grand-residences.git
+
 2. Install dependencies:
 bashnpm install
 
@@ -27,10 +28,18 @@ bashnpm install
 Update firebase.js with your Firebase project configuration.
 Ensure Firestore rules are set in firestore.rules.
 
-
 4. Deploy to Firebase Hosting:
 bashfirebase deploy
 
+## Screenshots
+![Apartment Listings](screenshots/apartment-listings.png)
+![Flat Detail Modal](screenshots/flat-detail-modal.png)
+
+## Architecture
+- **Frontend**: Built with HTML, CSS, and JavaScript, using a responsive design with modals and lightbox for image galleries.
+- **Backend**: Firebase Firestore for apartment and testimonial data, Firebase Authentication for user management.
+- **Hosting**: Firebase Hosting for deployment.
+- **Server**: Express.js for potential API endpoints (though not fully implemented in provided code).
 
 ## File Structure
 
