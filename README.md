@@ -19,7 +19,7 @@ A web application for browsing luxury apartments, featuring real-time filtering,
 ## Setup Instructions
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/grand-residences.git
+   git clone https://github.com/daksh541/grand-residences.git
 2. Install dependencies:
 bashnpm install
 
