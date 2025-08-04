@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "629128067627",
+    "project_id": "apartment-34739",
+    "storage_bucket": "apartment-34739.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:629128067627:android:f196c2d3666f0e4d12486e",
+        "android_client_info": {
+          "package_name": "com.companay.Apartment"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCM0LTOnCFKZ3iqxiredhqNbeg3SzlHUiA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

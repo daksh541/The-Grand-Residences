@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Apartment Living - The Grand Residences</title>
+    <meta name="description" content="Discover luxury apartments for sale and rent at The Grand Residences. Explore available flats, amenities, and contact us for inquiries.">
+    <link rel="icon" href="https://placehold.co/32x32/667eea/ffffff?text=GR" type="image/png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+
+    <script type="module" src="firebase.js"></script>
+    
+    <script type="module" src="script.js"></script>
+
+    </head>
+<body>
+
+    <section id="auth-section" class="py-8 bg-gray-100" >
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-indigo-800 mb-6">Welcome to The Grand Residences</h2>
+            <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-xl">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-6 text-center" id="auth-mode-toggle">Login</h3>
+                <form id="auth-form" class="space-y-6">
+                    <div>
+                        <label for="auth-email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+                        <input type="email" id="auth-email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required autocomplete="email">
+                    </div>
+                    <div>
+                        <label for="auth-password" class="block text-gray-700 text-sm font-bold mb-2">Password:</label>
+                        <input type="password" id="auth-password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" required autocomplete="current-password">
+                    </div>
+                    <p id="auth-error-message" class="text-red-500 text-sm italic hidden"></p>
+                    <div class="flex items-center justify-between">
+                        <button type="submit" id="auth-submit-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+                            Login
+                        </button>
+                        <a href="#" id="toggle-auth-mode" class="inline-block align-baseline font-bold text-sm text-indigo-600 hover:text-indigo-800">
+                            Don't have an account? Register
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <div id="main-webpage-content" >
+        <!-- Header Section -->
+        <header class="bg-indigo-800 text-white p-4 shadow-md sticky top-0 z-50">
+            <div class="container mx-auto flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold logo">The Grand Residences</a>
+                <nav class="hidden md:flex space-x-6 items-center"> <!-- Added items-center for alignment -->
+                    <a href="#about" class="hover:text-indigo-200 transition-colors">About</a>
+                    <a href="#flats" class="hover:text-indigo-200 transition-colors">Flats</a>
+                    <a href="#testimonials" class="hover:text-indigo-200 transition-colors">Testimonials</a>
+                    <a href="#contact" class="hover:text-indigo-200 transition-colors">Contact</a>
+                    <div class="relative group">
+                        <button id="account-dropdown-btn" class="hover:text-indigo-200 transition-colors focus:outline-none">
+                            Account <span id="logged-in-username" class="ml-1 text-sm font-normal">Guest</span>
+                            <i class="fas fa-chevron-down text-xs ml-1"></i>
+                        </button>
+                        <div id="account-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden group-hover:block">
+                            <a href="#" id="profile-logout-link" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hidden">Profile & Logout</a>
+                            <a href="#" id="login-register-link" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Login/Register</a>
+                        </div>
+                    </div>
+                    </select>
+                </nav>
+                <button id="mobile-menu-btn" class="md:hidden text-white text-2xl focus:outline-none">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu-overlay" class="fixed inset-0 bg-indigo-800 bg-opacity-95 z-50 hidden md:hidden">
+            <div class="flex justify-end p-4">
+                <button id="close-mobile-menu-btn" class="text-white text-3xl focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="flex flex-col items-center text-white text-2xl space-y-6">
+                <a href="#about" class="hover:text-indigo-200 transition-colors">About</a>
+                <a href="#flats" class="hover:text-indigo-200 transition-colors">Flats</a>
+                <a href="#testimonials" class="hover:text-indigo-200 transition-colors">Testimonials</a>
+                <a href="#contact" class="hover:text-indigo-200 transition-colors">Contact</a>
+                <a href="#" id="mobile-profile-logout-link" class="hover:text-indigo-200 transition-colors hidden">Profile & Logout</a>
+                <a href="#" id="mobile-login-register-link" class="hover:text-indigo-200 transition-colors">Login/Register</a>
+            </nav>
+        </div>
+
+        <!-- Hero Section -->
+        <section id="hero" class="relative bg-cover bg-center h-[600px] flex items-center justify-center text-white" style="background-image: url('https://royalhillseg.com/wp-content/uploads/2024/08/Joulz-Compound-6th-October-Egypt-By-Inertia-2.png');">
+            <div class="absolute inset-0 bg-black opacity-50"></div>
+            <div class="text-center z-10 px-4">
+                <h1 class="text-5xl md:text-6xl font-extrabold mb-4 animate-fade-in-up">Luxury Living Redefined</h1>
+                <p class="text-xl md:text-2xl mb-8 animate-fade-in-up delay-200">Discover your dream apartment in the heart of the city.</p>
+                <a href="#flats" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 animate-fade-in-up delay-400">Explore Flats</a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-16 bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center text-indigo-800 mb-12 animate-on-scroll">About Our Community</h2>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="animate-on-scroll">
+                        <img src="https://royalhillseg.com/wp-content/uploads/2024/08/Joulz-Compound-6th-October-Egypt-By-Inertia-2.png" alt="Luxury Apartment Interior" class="rounded-lg shadow-lg">
+                    </div>
+                    <div class="space-y-6 animate-on-scroll">
+                        <p class="text-lg text-gray-700 leading-relaxed">
+                            The Grand Residences offers unparalleled luxury and comfort. Nestled in a prime location, our community
+                            provides residents with a sophisticated lifestyle, state-of-the-art amenities, and breathtaking views.
+                            Each apartment is meticulously designed with high-end finishes and spacious layouts to create
+                            your perfect urban sanctuary.
+                        </p>
+                        <ul class="text-gray-700 space-y-3">
+                            <li class="flex items-center text-lg"><i class="fas fa-map-marker-alt text-indigo-600 mr-3"></i> Prime City Center Location</li>
+                            <li class="flex items-center text-lg"><i class="fas fa-swimming-pool text-indigo-600 mr-3"></i> Rooftop Infinity Pool</li>
+                            <li class="flex items-center text-lg"><i class="fas fa-dumbbell text-indigo-600 mr-3"></i> State-of-the-Art Fitness Center</li>
+                            <li class="flex items-center text-lg"><i class="fas fa-utensils text-indigo-600 mr-3"></i> Gourmet Restaurant & Cafe</li>
+                            <li class="flex items-center text-lg"><i class="fas fa-concierge-bell text-indigo-600 mr-3"></i> 24/7 Concierge Service</li>
+                        </ul>
+                        <div class="grid grid-cols-2 gap-4 mt-6">
+                            <div class="p-4 bg-indigo-50 rounded-lg text-center shadow-sm">
+                                <!-- Corrected ID: total-flats-counter -->
+                                <p class="text-3xl font-bold text-indigo-800" id="total-flats-counter"><span class="counter" data-target="150">0</span>+</p>
+                                <p class="text-gray-600">Total Flats</p>
+                            </div>
+                            <div class="p-4 bg-indigo-50 rounded-lg text-center shadow-sm">
+                                <!-- Corrected ID: built-year-span -->
+                                <p class="text-3xl font-bold text-indigo-800" id="built-year-span">2021</p>
+                                <p class="text-gray-600">Built Year</p>
+                            </div>
+                        </div>
+                        <!-- Corrected IDs: address-span, amenities-span, description-span -->
+                        <p class="text-gray-700 text-sm mt-4">Address: <span id="address-span">123 Grand Ave, Metropolis, CA 90210</span></p>
+                        <p class="text-gray-700 text-sm">Amenities: <span id="amenities-span">Gym, Pool, Concierge</span></p>
+                        <p class="text-gray-700 text-sm">Description: <span id="description-span">A vibrant community offering modern living.</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flats Section -->
+        <section id="flats" class="py-16 bg-gray-100">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center text-indigo-800 mb-12 animate-on-scroll">Our Available Apartments</h2>
+
+                <!-- Filters and Sorting -->
+                <div class="bg-white p-6 rounded-lg shadow-lg mb-8 animate-on-scroll">
+                    <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-4">
+                        <div>
+                            <label for="offerTypeFilter" class="block text-gray-700 text-sm font-bold mb-2">Offer Type</label>
+                            <select id="offerTypeFilter" class="p-2 border rounded-lg">
+                                <option value="all">All</option>
+                                <option value="sale">For Sale</option>
+                                <option value="rent">For Rent</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="flatTypeFilter" class="block text-gray-700 text-sm font-bold mb-2">Flat Type</label>
+                            <select id="flatTypeFilter" class="p-2 border rounded-lg">
+                                <option value="all">All</option>
+                                <option value="studio">Studio</option>
+                                <option value="1BHK">1BHK</option>
+                                <option value="2BHK">2BHK</option>
+                                <option value="3BHK">3BHK</option>
+                                <option value="penthouse">Penthouse</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="minPriceFilter" class="block text-gray-700 text-sm font-bold mb-2">Min Price</label>
+                            <input id="minPriceFilter" type="number" class="p-2 border rounded-lg" placeholder="Min Price">
+                        </div>
+                        <div>
+                            <label for="maxPriceFilter" class="block text-gray-700 text-sm font-bold mb-2">Max Price</label>
+                            <input id="maxPriceFilter" type="number" class="p-2 border rounded-lg" placeholder="Max Price">
+                        </div>
+                        <div>
+                            <label for="sortByFilter" class="block text-gray-700 text-sm font-bold mb-2">Sort By</label>
+                            <select id="sortByFilter" class="p-2 border rounded-lg">
+                                <option value="price-desc">Price: High to Low</option>
+                                <option value="price-asc">Price: Low to High</option>
+                                <option value="area-desc">Area: High to Low</option>
+                                <option value="area-asc">Area: Low to High</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between flex-wrap gap-4">
+                        <div class="flex items-center">
+                            <input id="favorite-toggle-btn" type="checkbox" class="mr-2">
+                            <label for="favorite-toggle-btn" class="ml-2 text-gray-700 text-sm font-bold">Show Favorites (<span id="favorites-count-span">0</span>)</label>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <button id="applyFiltersBtn" class="bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700">Apply Filters</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flat Listings -->
+                <div id="flatsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+                    <!-- Flat cards will be injected here by JavaScript -->
+                    <div class="skeleton-card bg-white p-6 rounded-lg shadow-lg"></div>
+                    <div class="skeleton-card bg-white p-6 rounded-lg shadow-lg"></div>
+                    <div class="skeleton-card bg-white p-6 rounded-lg shadow-lg"></div>
+                    <div class="skeleton-card bg-white p-6 rounded-lg shadow-lg"></div>
+                    <div class="skeleton-card bg-white p-6 rounded-lg shadow-lg"></div>
+                    <div class="skeleton-card bg-white p-6 rounded-lg shadow-lg"></div>
+                </div>
+
+                <p id="no-flats-message" class="text-center text-gray-600 text-lg hidden">No apartments found matching your criteria.</p>
+
+                <div class="text-center">
+                    <button id="loadMoreBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-full shadow transition duration-300 hidden">
+                        Load More
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recently Viewed Section -->
+        <section id="recently-viewed" class="py-16 bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center text-indigo-800 mb-12 animate-on-scroll">Recently Viewed</h2>
+                <div id="recently-viewed-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Recently viewed flat cards will be injected here -->
+                    <p class="text-center text-gray-600 col-span-full">No recently viewed apartments.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="py-16 bg-indigo-700 text-white">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center mb-12 animate-on-scroll">What Our Residents Say</h2>
+                <div id="reviews-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Testimonials will be injected here by JavaScript -->
+                    <div class="card p-6 bg-indigo-50 text-indigo-900">
+                        <p class="text-lg italic mb-4">"Loading testimonials..."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-16 bg-gray-100">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center text-indigo-800 mb-12 animate-on-scroll">Contact Us</h2>
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div class="space-y-6 animate-on-scroll">
+                        <p class="text-lg text-gray-700 leading-relaxed">
+                            Have questions or ready to schedule a viewing? Reach out to us. Our team is here to assist you.
+                        </p>
+                        <p class="text-lg text-gray-700"><i class="fas fa-phone-alt text-indigo-600 mr-3"></i> +1 (123) 456-7890</p>
+                        <p class="text-lg text-gray-700"><i class="fas fa-envelope text-indigo-600 mr-3"></i> info@grandresidences.com</p>
+                        <p class="text-lg text-gray-700"><i class="fas fa-map-marker-alt text-indigo-600 mr-3"></i> 123 Luxury Lane, Cityville, State, 12345</p>
+                        <div class="flex space-x-4 mt-6">
+                            <a href="#" class="text-indigo-600 hover:text-indigo-800 text-2xl"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="text-indigo-600 hover:text-indigo-800 text-2xl"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="text-indigo-600 hover:text-indigo-800 text-2xl"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="text-indigo-600 hover:text-indigo-800 text-2xl"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-lg animate-on-scroll">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-6">Send Us a Message</h3>
+                        <form id="contact-form" class="space-y-4">
+                            <div>
+                                <label for="contact-name" class="block text-gray-700 text-sm font-bold mb-2">Name:</label>
+                                <input type="text" id="contact-name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                            </div>
+                            <div>
+                                <label for="contact-email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+                                <input type="email" id="contact-email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                            </div>
+                            <div>
+                                <label for="contact-message" class="block text-gray-700 text-sm font-bold mb-2">Message:</label>
+                                <textarea id="contact-message" rows="5" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+                                    Send Inquiry
+                                </button>
+                                <p id="form-message" class="text-sm font-semibold ml-4" aria-live="polite"></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Flat Detail Modal (Added this full structure) -->
+        <div id="flat-detail-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-[1000] hidden">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative">
+                <button id="close-modal-btn" class="absolute top-3 right-3 text-gray-600 hover:text-gray-900 text-2xl focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="p-6">
+                    <h2 id="flat-detail-title" class="text-3xl font-bold text-indigo-800 mb-4"></h2>
+                    <div id="modal-image-gallery" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <!-- Images will be injected here -->
+                    </div>
+                    <p id="flat-detail-description" class="text-gray-700 leading-relaxed mb-6"></p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Price</h3>
+                            <p id="flat-detail-price" class="text-2xl font-bold text-indigo-600"></p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Specifications</h3>
+                            <ul id="flat-detail-specs" class="space-y-2 text-gray-700">
+                                <!-- Specs will be injected here -->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Location</h3>
+                        <p id="flat-detail-location" class="text-gray-700 flex items-center"></p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Amenities</h3>
+                        <div id="flat-detail-amenities" class="flex flex-wrap gap-2">
+                            <!-- Amenities will be injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="lightbox-modal" class="lightbox-overlay" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
+            <button class="lightbox-close-button" aria-label="Close image viewer">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="lightbox-content">
+                <button class="lightbox-nav-button prev" id="lightbox-prev" aria-label="Previous image"><i class="fas fa-chevron-left"></i></button>
+                <img id="lightbox-image" src="" alt="Full screen image" class="rounded-lg">
+                <button class="lightbox-nav-button next" id="lightbox-next" aria-label="Next image"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+
+        <div id="toast-container" class="fixed top-4 right-4 z-[2000] space-y-2"></div>
+
+        <a href="#" id="back-to-top" class="fixed bottom-4 right-4 bg-indigo-600 text-white p-3 rounded-full shadow-lg hidden">
+            <i class="fas fa-arrow-up"></i>
+        </a>
+
+        <footer class="bg-gray-800 text-white py-8">
+            <div class="container mx-auto px-4 text-center">
+                <p>&copy; 2024 The Grand Residences. All rights reserved.</p>
+                <div class="flex justify-center space-x-4 mt-4">
+                    <a href="#" class="hover:text-indigo-400">Privacy Policy</a>
+                    <a href="#" class="hover:text-indigo-400">Terms of Service</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

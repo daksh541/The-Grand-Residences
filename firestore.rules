@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Public read for general info and listings
+    match /apartmentDetails/{documentId} {
+      allow read: if true;
+    }
+    match /flats/{documentId} {
+      allow read: if true;
+    }
+    match /testimonials/{documentId} {
+      allow read: if true;
+    }
+
+    // Allow authenticated users to read and write their own user data (for favorites)
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Allow anyone to create contact inquiries
+    match /inquiries/{documentId} {
+      allow create: if true; // Only allow creating new documents (not reading/updating/deleting by public)
+    }
+  }
+}
