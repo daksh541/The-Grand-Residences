@@ -32,8 +32,10 @@ Ensure Firestore rules are set in firestore.rules.
 bashfirebase deploy
 
 ## Screenshots
-![Apartment Listings](screenshots/apartment-listings.png)
-![Flat Detail Modal](screenshots/flat-detail-modal.png)
+![Apartment Listings](<img width="1349" height="602" alt="Screenshot 2025-08-04 205629" src="https://github.com/user-attachments/assets/de20e326-44b2-43f0-ab22-7d0a49b4d95e" />
+)
+![Flat Detail Modal](<img width="1349" height="598" alt="Screenshot 2025-08-04 205737" src="https://github.com/user-attachments/assets/f190b0dc-0116-4168-aa1c-da7b571ed6b7" />
+)
 
 ## Architecture
 - **Frontend**: Built with HTML, CSS, and JavaScript, using a responsive design with modals and lightbox for image galleries.
